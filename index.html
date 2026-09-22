@@ -467,9 +467,11 @@ function results(){
     <h3>Raw answers</h3>
     <p class="sub">This is what a backend would receive.</p>
     <pre id="raw">${esc(JSON.stringify(payload,null,1))}</pre>
-    <div class="nav"><button class="ghost" id="again">Start over</button><button class="ghost" id="dl" style="display:none">Download my answers</button></div>
+    <div class="nav"><span><button id="close">Close</button> <button class="ghost" id="again" style="margin-left:8px">Start over</button></span><button class="ghost" id="dl" style="display:none">Download my answers</button></div>
   </div>`;
   document.getElementById("again").onclick = ()=>location.reload();
+  // browsers only let a script close tabs it opened; fall back to a plain goodbye page
+  document.getElementById("close").onclick = ()=>{ window.close(); setTimeout(()=>{ app.innerHTML = '<div class="card"><h2>Thank you</h2><p class="sub">Your answers have been sent. You can close this tab.</p></div>'; }, 150); };
   send(payload);
   document.getElementById("dl").onclick = ()=>{
     const b = new Blob([JSON.stringify(payload,null,1)],{type:"application/json"});
